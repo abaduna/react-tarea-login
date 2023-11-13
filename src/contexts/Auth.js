@@ -7,7 +7,7 @@ import {authReducer,initialState} from "../reducers/auth"
 //import jwt_decode from "jwt-decode";
 import { jwtDecode } from "jwt-decode";
 
-import {API} from "../API"
+
 
 
 
@@ -25,37 +25,42 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("auth");
     };
 
-    const getUserInformation = () => jwtDecode(state.jkt);
+    const getUserInformarion = () => jwtDecode(state.jkt)
 
-    const login = async (userName, password) => {
-        try {
-            const response = await API.post("/auth", { userName, password }, { headers: { Authorization: localStorage.getItem("auth") } });
-            
-            if (response.data.userName === "artu" && response.data.password === "123456") {
-                //const { jkt } = response.data;
-                const {jkt}={
-                    ok: true,
-                    jkt: "sdsdghsdgsdgsdghsdgkhusdgkhygsdkhyugfsdygsdgkhyesdgkhyisdgjyigtsdkjyg"
-                }
-                dispatch({ type: SET_AUTH, payload: { jkt } });
-                localStorage.setItem("auth", jkt);
-            } else {
-                // Manejar caso cuando las credenciales no son correctas
-                // Puedes lanzar un error o manejarlo de alguna manera
-                console.error("Credenciales incorrectas");
+    const login = async  ({userName, password}) => {
+            console.log(`login`);
+            const {jkt} = {
+                jkt:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
             }
-        } catch (error) {
-            // Manejar errores de la petición
-            console.error("Error en la petición de login", error);
-        }
+            setAuth({jkt})
+            return jkt
+            // const response =  API.post("/auth", { userName, password }, { headers: { Authorization: localStorage.getItem("auth") } });
+
+            // console.log("Response data:", response.data); // Agregado para depurar
+            // console.log(`response`,response );
+            // if (userName === "artu" && password === "123456") {
+            //     console.log(`artu 123456`);
+            //     const { jkt } = response.data;
+            //     dispatch({ type: SET_AUTH, payload: { jkt } });
+            //     localStorage.setItem("auth", jkt);
+            //     return jkt;
+            // } else {
+            //     // Manejar caso cuando las credenciales no son correctas
+            //     // Puedes lanzar un error o manejarlo de alguna manera
+            //     console.error("Credenciales incorrectas");
+            // }
+
+
     };
 
-    const setAuth = (jkt) => {
+
+
+    const setAuth = ({jkt}) => {
         dispatch({ type: SET_AUTH, payload: { jkt } });
     };
 
     return (
-        <Provider value={{ state, setAuth, logout, login, getUserInformation }}>
+        <Provider value={{ state, setAuth, logout, login, getUserInformarion }}>
             {children}
         </Provider>
     );

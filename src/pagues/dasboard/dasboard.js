@@ -1,9 +1,15 @@
 
+import { useContext } from "react"
+import { AuthContex } from "../../contexts/Auth";
 
-function dasboard() {
+
+function Dasboard() {
+  const {getUserInformarion} = useContext(AuthContex)
+  const {name}=getUserInformarion()
   return (
-    <div>dasboard</div>
+    <div>Bienvenido {name}</div>
   )
 }
 
-export default dasboard
+export default Dasboard
+

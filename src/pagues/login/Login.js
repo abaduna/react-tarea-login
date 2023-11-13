@@ -13,23 +13,18 @@ const Login = () => {
   const {login} = useContext(AuthContex)
   
 
-  const handleLogin =({userName,password})=>{
+  const handleLogin = async ({ userName, password }) => {
     console.log(userName, password);
-
-
     try {
+        const jkt = await login({userName, password});
+        if (!jkt) return setWrrongPassword(true);
 
-    navigate("/dasboard");      
+        navigate("/dasboard");
     } catch (error) {
-      setWrrongPassword(true)
+        console.error("Error during login:", error);
+        setWrrongPassword(true);
     }
-
-
-
-
-    
-  }
-
+};
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema(),
@@ -70,6 +65,7 @@ const Login = () => {
               </Button>
             </Box>
           </form>
+          {wrrongPassword  && <h2>Usauario incorecto</h2>}
         </Grid>
       </Container>
     </>
